@@ -7,12 +7,9 @@ defmodule MyAppWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_my_app_key",
-    signing_salt: "aiUPh//o"
+    signing_salt: "cYyABk/w",
+    same_site: "Lax"
   ]
-
-  socket "/socket", MyAppWeb.UserSocket,
-    websocket: true,
-    longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
@@ -24,7 +21,7 @@ defmodule MyAppWeb.Endpoint do
     at: "/",
     from: :my_app,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: MyAppWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

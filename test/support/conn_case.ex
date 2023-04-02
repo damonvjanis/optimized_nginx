@@ -19,25 +19,20 @@ defmodule MyAppWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint MyAppWeb.Endpoint
+
+      use MyAppWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import MyAppWeb.ConnCase
-
-      alias MyAppWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint MyAppWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(MyApp.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(MyApp.Repo, {:shared, self()})
-    end
-
+    MyApp.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end
